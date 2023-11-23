@@ -11,8 +11,10 @@ import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
 import { useSelector } from 'react-redux';
+
 const Sidebar = () => {
   const data = useSelector(state=> state.userLoginInfo.userInfo)
+  
   console.log(data, 'daaaaaataaaaaaaaa');
   const [image, setImage] = useState('');
   const [cropData, setCropData] = useState("");
@@ -70,6 +72,7 @@ const Sidebar = () => {
         getDownloadURL(storageRef).then((downloadURL) => {
           // setprofilePhoto(downloadURL)
           console.log(downloadURL,'DOWNLOADURL');
+
           updateProfile(auth.currentUser, {
             photoURL: downloadURL
           }).then(()=>{
