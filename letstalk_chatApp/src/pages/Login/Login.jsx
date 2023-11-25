@@ -45,7 +45,7 @@ const Login = () => {
         .then((user) => {
           toast.success('Login successfully done...!');
           console.log(user.user);
-          dispatch(userLoginInfo('asd'))
+          dispatch(userLoginInfo(user.user));
           localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo(user.user)))
           setEmail('')
           setPassword('')
