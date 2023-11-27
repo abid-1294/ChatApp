@@ -19,7 +19,7 @@ const Sidebar = () => {
   const [image, setImage] = useState('');
   const [cropData, setCropData] = useState("");
   const cropperRef = createRef();
-  const [profilePhoto, setprofilePhoto] = useState('')
+  
   
   let [profileModal, setprofileModal] = useState(false)
   const auth = getAuth();
@@ -55,11 +55,7 @@ const Sidebar = () => {
       
     }).catch((error) => {
       console.log(error.code)
-    });
-  
-   
-   
-    
+    });  
   }
 
   const getCropData = () => {
@@ -72,7 +68,6 @@ const Sidebar = () => {
         getDownloadURL(storageRef).then((downloadURL) => {
           // setprofilePhoto(downloadURL)
           console.log(downloadURL,'DOWNLOADURL');
-
           updateProfile(auth.currentUser, {
             photoURL: downloadURL
           }).then(()=>{
@@ -91,10 +86,10 @@ const Sidebar = () => {
      
         <div className='bg-primary_color h-screen rounded-br-lg rounded-tr-lg pt-[38px]'>
           <div className='w-[96px] h-[96px] mx-auto rounded-full overflow-hidden group relative'>
-            <img src={data} alt="Profile Pic" className='w-full h-full' />
+            <img src={data.photoURL} alt="Profile Pic" className='w-full h-full' />
             <div onClick={handleProfileModal} className='w-0 h-full group-hover:w-full bg-[rgba(0,0,0,0.4)] absolute top-0 left-0 flex justify-center items-center'><BiUpload className='text-white' /></div>
           </div>
-          <p className='text-white font-Osans text-[16px] font-semibold text-center mt-10'>Abid Mehrab</p>
+          <p className='text-white font-Osans text-[16px] font-semibold text-center mt-10'>{data.displayName}</p>
           <div className='mt-[78px] py-[20px] z-[1] relative after:absolute after:content-[""] after:top-0 after:left-[25px] after:bg-white after:w-full after:h-full after:z-[-1] after:rounded-l-xl overflow-hidden before:absolute before:[""] before:bg-primary_color before:top-0 before:right-0 before:w-[8px] before:h-full before:rounded-l-lg'>
             <LiaHomeSolid className='text-5xl mx-auto text-primary_color font-bold' />
           </div>
@@ -115,7 +110,7 @@ const Sidebar = () => {
         {
           profileModal &&
           <div className='w-full h-screen bg-[rgba(0,0,0,0.4)] absolute flex justify-center items-center top-0 left-0 z-[1]'>
-          <div className=' px-[10px] py-[10px] rounded bg-black  text-center'>
+          <div className=' w-[500px] px-[10px] py-[10px] rounded bg-black  text-center'>
             <h1 className='text-xl mt-5 w-[400px] pb-2 mx-auto text-white font-Pops font-semibold border-b'>Upload your Profile Picture</h1>
 
             {
@@ -124,11 +119,12 @@ const Sidebar = () => {
             <div
             className="img-preview"
             style={{ width: "100%", float: "left", height: "300px" }}
-          />
-            </div>:
-             <div className='w-[150px] h-[150px] rounded-full overflow-hidden mx-auto my-4'>
-             <img src={data} alt="" />
-             </div>
+            />
+            </div>
+            :
+            <div className='w-[150px] h-[150px] rounded-full overflow-hidden mx-auto my-4'>
+            <img src={data.photoURL} alt="" />
+            </div>
 
             }
            

@@ -29,7 +29,7 @@ const Home = () => {
   console.log(user, 'Weeeeee');
   if(user.emailVerified){
     setVerify(true)
-    dispatch(userLoginInfo(user.user))
+    dispatch(userLoginInfo(user))
     localStorage.setItem('userLoginInfo', JSON.stringify(userLoginInfo(user.user)))
   }
   setloaded(true)
