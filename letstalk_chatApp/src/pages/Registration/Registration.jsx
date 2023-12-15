@@ -54,7 +54,7 @@ const Registration = () => {
     } else if (!/^(?=.*[0-9])/.test(password)) {
       setPassworderr('The string must contain at least 1 numeric character')
     } else if (!/^(?=.*[!@#$%^&*])/.test(password)) {
-      setPassworderr('The string must contain at least one special character, but we are escaping reserved RegEx characters to avoid conflict')
+      setPassworderr('The string must contain at least one special character')
     } else if (!/^(?=.{8,})/.test(password)) {
       setPassworderr('The string must be eight characters or longe')
     }
@@ -112,7 +112,6 @@ const Registration = () => {
           <h1 className='font-bold  text-[34.401px] text-[#11175D] font-Nun '>Get Started with easily register</h1>
           <p className='mt-[13px] font-normal font-Nun text-[20.641px] text-[#000000] opacity-50 mb-[53px]'>Free register <span className='text-[#808080]'>and</span> you can enjoy it</p>
 
-
           <div className='relative mt-[40px]'>
             <input onChange={handleEmail} value={email} className='w-[368px] border border-opacity-50 outline-none rounded-lg border-[#808080] py-[26px] pl-[52px] pr-[60px]' type="email" placeholder="Enter your mail" />
             <p className='text-[#11175D] tracking-[1.032px] font-semibold text-[13.76px] font-Nun px-[18px] absolute top-[-10px] left-[34px] bg-white'>Email Address</p>
@@ -151,6 +150,7 @@ const Registration = () => {
             <p className='w-[220px] m-auto font-Osans font-normal text-[13.338px] color-[#03014C]'>Already  have an account ? <span className='text-[#EA6C00] font-bold'><a href=""><Link to='/login'>Sign In</Link></a></span></p>
 
           </div>
+
         </div>
 
       </div>

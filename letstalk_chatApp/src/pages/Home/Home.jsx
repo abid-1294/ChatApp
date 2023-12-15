@@ -38,12 +38,12 @@ const Home = () => {
 console.log(verify);
 
   return (
-    <div>
+    <div className='overflow-y-hidden h-[100vh]'>
       {loaded && <div>
       {
         verify ?
         <div className='flex'>
-          <div className='w-[186px]'><Sidebar/></div>
+          <div className='w-[186px]'><Sidebar active='home'/></div>
           <div className='w-[450px] mt-[33px] ml-[43px] mb-[43px] mr-[33px]'><GroupList/><FriendRequest/></div>
           <div className='w-[420px] mt-[33px] ml-[43px] mb-[43px] mr-[33px]'><Friends/><MyGroups/></div>
           <div className='w-[420px] mt-[33px] ml-[43px] mb-[43px] mr-[33px]'><UserList/><BlockedUser/></div>
@@ -58,10 +58,10 @@ console.log(verify);
           </div>
         </div>
       }
-      
-     
     </div>}
+
     </div>
+
     
   )
 }

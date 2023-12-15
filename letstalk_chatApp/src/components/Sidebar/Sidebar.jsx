@@ -5,15 +5,18 @@ import {AiFillMessage} from 'react-icons/ai'
 import {IoMdNotificationsOutline} from 'react-icons/io'
 import {SlSettings} from 'react-icons/sl'
 import {VscSignOut} from 'react-icons/vsc'
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import {BiUpload} from 'react-icons/bi'
 import Cropper from "react-cropper";
 import "cropperjs/dist/cropper.css";
 import { getDownloadURL, getStorage, ref, uploadString } from "firebase/storage";
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDatabase, update, ref as refprofileImg } from 'firebase/database';
 
-const Sidebar = () => {
+const Sidebar = ({active}) => {
+  const db = getDatabase();
   const data = useSelector(state=> state.userLoginInfo.userInfo)
+  const dispatch = useDispatch()
   
   console.log(data, 'daaaaaataaaaaaaaa');
   const [image, setImage] = useState('');
@@ -52,6 +55,10 @@ const Sidebar = () => {
       setTimeout(()=>{
         navigate('/login')
       },2000)
+      dispatch(userLoginInfo(null));
+      localStorage.removeItem('userLoginInfo');   
+      localStorage.clear();   //after signout local storage will be cleared
+      console.clear();        ////after signout console will be cleared
       
     }).catch((error) => {
       console.log(error.code)
@@ -71,6 +78,9 @@ const Sidebar = () => {
           updateProfile(auth.currentUser, {
             photoURL: downloadURL
           }).then(()=>{
+            update(refprofileImg(db, 'users/' + data.uid),{
+              profileImg: downloadURL,
+            })
             setprofileModal(false)
             setImage('');
             setCropData('')
@@ -83,18 +93,18 @@ const Sidebar = () => {
   return (
 
     <>
-     
+      
         <div className='bg-primary_color h-screen rounded-br-lg rounded-tr-lg pt-[38px]'>
           <div className='w-[96px] h-[96px] mx-auto rounded-full overflow-hidden group relative'>
             <img src={data.photoURL} alt="Profile Pic" className='w-full h-full' />
             <div onClick={handleProfileModal} className='w-0 h-full group-hover:w-full bg-[rgba(0,0,0,0.4)] absolute top-0 left-0 flex justify-center items-center'><BiUpload className='text-white' /></div>
           </div>
-          <p className='text-white font-Osans text-[16px] font-semibold text-center mt-10'>{data.displayName}</p>
-          <div className='mt-[78px] py-[20px] z-[1] relative after:absolute after:content-[""] after:top-0 after:left-[25px] after:bg-white after:w-full after:h-full after:z-[-1] after:rounded-l-xl overflow-hidden before:absolute before:[""] before:bg-primary_color before:top-0 before:right-0 before:w-[8px] before:h-full before:rounded-l-lg'>
-            <LiaHomeSolid className='text-5xl mx-auto text-primary_color font-bold' />
+          <p className='text-white font-Osans text-[18px] font-bold text-center mt-10'>{data.displayName}</p>
+          <div className={`mt-[78px] py-[20px] z-[1] ${active == 'home' && 'after:bg-white'} relative after:absolute after:content-[""] after:top-0 after:left-[25px] after:w-full after:h-full after:z-[-1] after:rounded-l-xl overflow-hidden before:absolute before:[""] before:bg-primary_color before:top-0 before:right-0 before:w-[8px] before:h-full before:rounded-l-lg`}>
+            <Link to='/home'><LiaHomeSolid className={`${active =='home' ? 'text-primary_color': 'text-white'} text-5xl mx-auto font-bold`} /></Link>
           </div>
-          <div className='mt-[60px]'>
-            <AiFillMessage className='text-5xl mx-auto text-[#BAD1FF] font-bold' />
+          <div className={`mt-[60px] py-[20px] z-[1] ${active == 'message' && 'after:bg-white'} relative after:absolute after:content-[""] after:top-0 after:left-[25px] after:w-full after:h-full after:z-[-1] after:rounded-l-xl overflow-hidden before:absolute before:[""] before:bg-primary_color before:top-0 before:right-0 before:w-[8px] before:h-full before:rounded-l-lg mt-[60px]`}>
+          <Link to='/message'><AiFillMessage className={`${active =='message' ? 'text-primary_color': 'text-[#BAD1FF]'} text-5xl mx-auto font-bold`} /></Link>
           </div>
           <div className='mt-[60px]'>
             <IoMdNotificationsOutline className='text-5xl mx-auto text-white font-bold' />
@@ -110,7 +120,7 @@ const Sidebar = () => {
         {
           profileModal &&
           <div className='w-full h-screen bg-[rgba(0,0,0,0.4)] absolute flex justify-center items-center top-0 left-0 z-[1]'>
-          <div className=' w-[500px] px-[10px] py-[10px] rounded bg-black  text-center'>
+          <div className='w-[500px] px-[10px] py-[10px] rounded bg-black  text-center'>
             <h1 className='text-xl mt-5 w-[400px] pb-2 mx-auto text-white font-Pops font-semibold border-b'>Upload your Profile Picture</h1>
 
             {
